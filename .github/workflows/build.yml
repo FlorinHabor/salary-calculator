@@ -55,12 +55,15 @@ jobs:
 
       - name: Build macOS App
         run: |
-          pyinstaller --onefile --noconsole --name "Calculator_Ore_Lucrate" src/calculator_salar/main.py
+          pyinstaller --onefile --noconsole --windowed --name "Calculator_Ore_Lucrate" src/calculator_salar/main.py
+
+      - name: Archive App for Permissions
+        run: |
+          cd dist
+          zip -r Calculator-macOS.zip . -i "Calculator_Ore_Lucrate*"
 
       - name: Upload macOS build
         uses: actions/upload-artifact@v4
         with:
-          name: Calculator-macOS
-          path: |
-            dist/Calculator_Ore_Lucrate
-            dist/*.app
+          name: Calculator-macOS-Zip
+          path: dist/Calculator-macOS.zip
