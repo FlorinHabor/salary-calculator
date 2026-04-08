@@ -58,11 +58,6 @@ jobs:
         run: |
           pyinstaller --onefile --noconsole --windowed --name "Calculator ore" --paths "src/calculator_salar" src/calculator_salar/main.py
 
-      - name: Archive App for Permissions
-        run: |
-          cd dist
-          zip -r Calculator-macOS.zip . -i "Calculator_Ore_Lucrate*"
-
       - name: Upload macOS build
         uses: actions/upload-artifact@v4
         with:
