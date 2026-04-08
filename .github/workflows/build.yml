@@ -1,41 +1,61 @@
-name: Build Python App
+name: Build Calculator Ore Lucrate
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
+  build-windows:
+    name: Build Windows EXE
+    runs-on: windows-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4 # Updated to v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # Updated to v5
         with:
-          python-version: 3.14
+          python-version: "3.12" 
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller customtkinter pandas openpyxl
+          pip install pyinstaller customtkinter pandas
 
-      - name: Build executable
+      - name: Build EXE
         run: |
-          if [ "${{ runner.os }}" == "Windows" ]; then
-            python -m PyInstaller --onefile --noconsole --name "Calculator Ore Lucrate" src/calculator_salar/main.py
-          else
-            python3 -m PyInstaller --onefile --noconsole --name "Calculator Ore Lucrate" src/calculator_salar/main.py
+          pyinstaller --onefile --noconsole --name "Calculator_Ore_Lucrate" src/calculator_salar/main.py
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4 # Updated to v4
         with:
-          name: calculator-${{ runner.os }}
-          path: dist/*
+          name: Calculator-Windows
+          path: dist/Calculator_Ore_Lucrate.exe
+
+  build-macos:
+    name: Build macOS App
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install pyinstaller customtkinter pandas
+
+      - name: Build macOS App
+        run: |
+          pyinstaller --onefile --noconsole --name "Calculator_Ore_Lucrate" src/calculator_salar/main.py
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Calculator-macOS
+          path: dist/Calculator_Ore_Lucrate
