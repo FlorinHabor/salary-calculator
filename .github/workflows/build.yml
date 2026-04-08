@@ -52,13 +52,11 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          # Added openpyxl here
-          pip3 install pyinstaller customtkinter pandas openpyxl 
+          pip3 install pyinstaller customtkinter pandas openpyxl
 
       - name: Build macOS App
         run: |
-          # Added --hidden-import openpyxl
-          pyinstaller --onefile --noconsole --windowed \
+          pyinstaller --onefile --noconsole --windowed 
           --target-arch arm64 \
           --name "Calculator_ARM_M-Series" \
           --paths "src/calculator_salar" \
