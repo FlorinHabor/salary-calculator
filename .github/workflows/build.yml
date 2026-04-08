@@ -28,7 +28,8 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --onefile --noconsole --name "Calculator_Ore_Lucrate" src/calculator_salar/main.py
+          # Added --paths so it finds the 'core' folder
+          pyinstaller --onefile --noconsole --name "Calculator_Ore_Lucrate" --paths "src/calculator_salar" src/calculator_salar/main.py
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
@@ -55,7 +56,8 @@ jobs:
 
       - name: Build macOS App
         run: |
-          pyinstaller --onefile --noconsole --windowed --name "Calculator_Ore_Lucrate" src/calculator_salar/main.py
+          # Added --paths and --windowed for macOS compatibility
+          pyinstaller --onefile --noconsole --windowed --name "Calculator_Ore_Lucrate" --paths "src/calculator_salar" src/calculator_salar/main.py
 
       - name: Archive App for Permissions
         run: |
