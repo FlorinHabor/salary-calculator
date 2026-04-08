@@ -52,86 +52,27 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          pip3 install pyinstaller customtkinter pandas
+          # Added openpyxl here
+          pip3 install pyinstaller customtkinter pandas openpyxl 
 
       - name: Build macOS App
         run: |
-          pyinstaller --onefile --noconsole --windowed --name "Calculator_Ore_Lucrate" --paths "src/calculator_salar" src/calculator_salar/main.py
-
-      - name: Archive App for Permissions
-        run: |
-          cd dist
-          zip -r Calculator-macOS.zip . -i "Calculator_Ore_Lucrate*"
-
-      - name: Upload macOS build
-        uses: actions/upload-artifact@v4
-        with:
-          name: Calculator-macOS-Zip
-          path: dist/Calculator-macOS.zip
-          # Job for Intel Macs
-  build-macos-intel:
-    runs-on: macos-13 # Standard Intel runner
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip3 install pyinstaller customtkinter pandas
-
-      - name: Build Intel EXE
-        run: pyinstaller --onefile --name "Calculator_Intel" --paths "src/calculator_salar" src/calculator_salar/main.py
-        
-      - name: Archive App for Permissions
-        run: |
-          cd dist
-          zip -r Calculator-macOS.zip . -i "Calculator_Ore_Lucrate*"
-
-      - name: Upload macOS build
-        uses: actions/upload-artifact@v4
-        with:
-          name: Calculator-macOS-Zip
-          path: dist/Calculator-macOS.zip
-
-  # Job for M1/M2/M3 Macs
-  build-macos-arm:
-    name: Build macOS ARM (M-Series)
-    runs-on: macos-14
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip3 install pyinstaller customtkinter pandas
-
-      - name: Build macOS App
-        run: |
-          # We specify the architecture explicitly for M-series
+          # Added --hidden-import openpyxl
           pyinstaller --onefile --noconsole --windowed \
           --target-arch arm64 \
           --name "Calculator_ARM_M-Series" \
-          --paths "src/calculator_salar" src/calculator_salar/main.py
+          --paths "src/calculator_salar" \
+          --hidden-import "openpyxl" \
+          src/calculator_salar/main.py
 
-      - name: Archive App
+      - name: Archive App for Permissions
         run: |
           cd dist
-          zip -r Calculator-ARM.zip . -i "Calculator_ARM_M-Series*"
+          zip -r Calculator-macOS.zip . -i "Calculator_Ore_Lucrate*"
 
       - name: Upload macOS build
         uses: actions/upload-artifact@v4
         with:
-          name: Calculator-ARM-Zip
-          path: dist/Calculator-ARM.zip
+          name: Calculator-macOS-Zip
+          path: dist/Calculator-macOS.zip
+  
