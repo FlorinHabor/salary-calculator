@@ -1,0 +1,41 @@
+name: Build Python App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.14
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller customtkinter pandas openpyxl
+
+      - name: Build executable
+        run: |
+          if [ "${{ runner.os }}" == "Windows" ]; then
+            python -m PyInstaller --onefile --noconsole --name "Calculator Ore Lucrate" src/calculator_salar/main.py
+          else
+            python3 -m PyInstaller --onefile --noconsole --name "Calculator Ore Lucrate" src/calculator_salar/main.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: calculator-${{ runner.os }}
+          path: dist/*
