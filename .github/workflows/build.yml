@@ -56,7 +56,7 @@ jobs:
 
       - name: Build macOS App
         run: |
-          pyinstaller --onefile --noconsole --windowed --target-arch arm64 --name "Calculator_ARM_M-Series" --paths "src/calculator_salar" --hidden-import "openpyxl" src/calculator_salar/main.py
+          pyinstaller --onefile --noconsole --windowed --target-arch arm64 --name "Calculator_ARM_M-Series" --paths "src/calculator_salar" src/calculator_salar/main.py
 
       - name: Archive App for Permissions
         run: |

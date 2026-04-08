@@ -5,6 +5,7 @@ import os
 from customtkinter import CTkToplevel 
 from tkinter import ttk
 from tkinter import filedialog
+import openpyxl
 
 app = customtkinter.CTk()
 app.title("Calculator Salarii")
@@ -137,7 +138,7 @@ def on_row_select(event):
 
     values = results_table.item(selected_item, "values")
     employee_name = values[0]
-    
+
     open_employee_modal(employee_name) 
 
 def create_gui(): 
