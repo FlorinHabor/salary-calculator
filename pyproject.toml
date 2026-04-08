@@ -1,0 +1,12 @@
+name = "Calculator salar"
+version = "0.1.0"
+description = "This is a project aim to remove redundant calculations of salary, it takes into consideration overtime and accounts for missed days by either covering them with overtime or not taking them into account."
+authors = [{ name = "Habor Florin" }]
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
